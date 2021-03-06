@@ -1,15 +1,47 @@
 <!DOCTYPE html>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-  <div id="app">
-    <h1 id='greeting'>{{greeting}}</h1>
+<style>
+  [v-cloak]{
+    display: none;
+  }
+</style>
+<div id="app">
+  <div class="container">
+    <div class="mt-5">
+      <form v-show='!submitted' class='mt-5'>
+        <div class="mt-5" >
+          <label for="email">Email</label>
+          <input type="email"  v-model='email' class='from-control form-control-lg'>
+        </div>
+        <button type='submit' @click.prevent='process' class='btn btn-primary'>Submit</button>
+      </form>
+      <h2 v-show='submitted' v-cloak>Thank you for your sumbmission</h2>
+    </div>
   </div>
-  <script src='https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js'></script>
+</div>
 
-  <script>
-    new Vue({
-      el: '#app',
-      data: {
-        greeting: "Hello again from Vue"
+<script src='https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js'></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+  const apiKey = 'YEedTuVKbdozMDaIpVBhoz9hIqZdXhYwB1pA6Iyx';
+  const url = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}`;
+  const vm = new Vue({
+    el: '#app',
+    data: {
+      email: "my_email@email.com",
+      submitted: false
+    },
+    methods: {
+      process: function(){
+        this.submitted = true;
       }
-    })
-  </script>
+    }
+  });
+
+  axios.get(url).then( res =>{ 
+    console.clear();
+    console.log(res);
+  });
+</script>
